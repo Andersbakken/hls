@@ -1,14 +1,31 @@
 #include <QtCore>
 
-void printLine(const QString &line, int col)
+void printLine(const QString &line, int col, bool context)
 {
-    printf("%s\n", qPrintable(line));
-    if (col) {
-        for (int i=1; i<col; ++i) {
-            printf(" ");
+    if (!col) {
+        printf("%s\n", qPrintable(line));
+    } else {
+        int idx = line.indexOf(QRegExp("[^A-Za-z0-9_]"), col);
+        if (idx == -1)
+            idx = line.size();
+        static const char *color = "\x1b[32;1m"; // dark yellow
+        static const char *resetColor = "\x1b[0;0m";
+
+        printf("%s%s%s%s%s", qPrintable(line.left(col - 1)),
+               color, qPrintable(line.mid(col - 1, idx - col + 1)),
+               resetColor, qPrintable(line.mid(idx)));
+        if (context) {
+            printf("    %s<---%s\n", color, resetColor);
+        } else {
+            printf("\n");
         }
-        printf("^\n");
     }
+}
+
+void printLine(const QString &string)
+{
+    if (!string.isEmpty())
+        printf("%s\n", qPrintable(string));
 }
 
 int main(int argc, char **argv)
@@ -65,13 +82,13 @@ int main(int argc, char **argv)
             if (line)
                 return 1;
             if (context) {
-                printLine(secondLast, 0);
-                printLine(last, 0);
+                printLine(secondLast);
+                printLine(last);
             }
-            printLine(l, col);
+            printLine(l, col, context);
             if (context) {
                 for (int i=0; i<2 && !ts.atEnd(); ++i) {
-                    printLine(ts.readLine(), 0);
+                    printLine(ts.readLine());
                 }
             }
         } else {
@@ -88,13 +105,13 @@ int main(int argc, char **argv)
                     return 1;
             }
             if (context) {
-                printLine(secondLast, 0);
-                printLine(last, 0);
+                printLine(secondLast);
+                printLine(last);
             }
-            printLine(l, off);
+            printLine(l, off, context);
             if (context) {
                 for (int i=0; i<2 && !ts.atEnd(); ++i) {
-                    printLine(ts.readLine(), 0);
+                    printLine(ts.readLine());
                 }
             }
         }
