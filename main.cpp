@@ -11,8 +11,8 @@ void printLine(const QString &line, int col, bool context)
         static const char *color = "\x1b[32;1m"; // dark yellow
         static const char *resetColor = "\x1b[0;0m";
 
-        printf("%s%s%s%s%s", qPrintable(line.left(col - 1)),
-               color, qPrintable(line.mid(col - 1, idx - col + 1)),
+        printf("%s%s%s%s%s", qPrintable(line.left(col)),
+               color, qPrintable(line.mid(col, idx - col)),
                resetColor, qPrintable(line.mid(idx)));
         if (context) {
             printf("    %s<---%s\n", color, resetColor);
