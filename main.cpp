@@ -48,8 +48,9 @@ int main(int argc, char **argv)
             line = lineColRx.cap(2).toInt();
             if (!line)
                 return 1;
-            col = lineColRx.cap(3).toInt();
-            if (!col)
+            bool ok;
+            col = lineColRx.cap(3).toInt(&ok);
+            if (!ok || col < 0)
                 return 1;
         } else if (lineRx.exactMatch(argv[i])) {
             fileName = lineRx.cap(1);
