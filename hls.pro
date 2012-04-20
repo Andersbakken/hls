@@ -11,3 +11,4 @@ INCLUDEPATH += .
 SOURCES += main.cpp
 OBJECTS_DIR = .obj
 CONFIG -= app_bundle
+QT = core
