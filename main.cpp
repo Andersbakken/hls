@@ -2,7 +2,7 @@
 
 void printLine(const QString &line, int col, bool context)
 {
-    if (!col) {
+    if (col < 0) {
         printf("%s\n", qPrintable(line));
     } else {
         int idx = line.indexOf(QRegExp("[^A-Za-z0-9_]"), col);
@@ -24,6 +24,7 @@ void printLine(const QString &line, int col, bool context)
 
 void printLine(const QString &string)
 {
+    printf("[%s] %s:%d: void printLine(const QString &string)\n", __func__, __FILE__, __LINE__);
     if (!string.isEmpty())
         printf("%s\n", qPrintable(string));
 }
@@ -59,10 +60,10 @@ int main(int argc, char **argv)
                 return 1;
         } else if (offsetRx.exactMatch(argv[i])) {
             fileName = offsetRx.cap(1);
-            off = offsetRx.cap(2).toInt();
-            if (!off)
+            bool ok;
+            off = offsetRx.cap(2).toInt(&ok);
+            if (!ok)
                 return 1;
-            ++off;
         } else {
             return 1;
         }
