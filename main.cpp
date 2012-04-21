@@ -24,7 +24,6 @@ void printLine(const QString &line, int col, bool context)
 
 void printLine(const QString &string)
 {
-    printf("[%s] %s:%d: void printLine(const QString &string)\n", __func__, __FILE__, __LINE__);
     if (!string.isEmpty())
         printf("%s\n", qPrintable(string));
 }
