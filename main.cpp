@@ -6,8 +6,11 @@ void printLine(const QString &line, int col, bool context)
         printf("%s\n", qPrintable(line));
     } else {
         int idx = line.indexOf(QRegExp("[^A-Za-z0-9_]"), col);
-        if (idx == -1)
+        if (idx == -1) {
             idx = line.size();
+        } else if (idx == col) {
+            ++idx;
+        }
         static const char *color = "\x1b[32;1m"; // dark yellow
         static const char *resetColor = "\x1b[0;0m";
 
