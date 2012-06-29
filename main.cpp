@@ -52,6 +52,7 @@ int main(int argc, char **argv)
             col = lineColRx.cap(3).toInt(&ok);
             if (!ok || col < 0)
                 return 1;
+            --col; // cols are 0-indexed in printLine but not otherwise
         } else if (lineRx.exactMatch(argv[i])) {
             fileName = lineRx.cap(1);
             line = lineRx.cap(2).toInt();
