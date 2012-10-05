@@ -73,6 +73,7 @@ int main(int argc, char **argv)
         QFile f(fileName);
         if (!f.open(QIODevice::ReadOnly))
             return 1;
+
         QTextStream ts(&f);
         QString l;
         QString last, secondLast;
@@ -101,7 +102,7 @@ int main(int argc, char **argv)
                 secondLast = last;
                 last = l;
                 l = ts.readLine();
-                if (off > l.size() + 1) {
+                if (off >= l.size() + 1) {
                     off -= (l.size() + 1);
                 } else {
                     break;
