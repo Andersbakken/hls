@@ -5,7 +5,7 @@ void printLine(const QString &line, int col, bool context)
     if (col < 0) {
         printf("%s\n", qPrintable(line));
     } else {
-        int idx = line.indexOf(QRegExp("[^A-Za-z0-9_]"), col);
+        int idx = line.indexOf(QRegExp("[^A-Za-z0-9_]"), line.at(col) == '~' ? col + 1 : col);
         if (idx == -1) {
             idx = line.size();
         } else if (idx == col) {
